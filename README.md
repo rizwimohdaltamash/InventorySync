@@ -1,752 +1,361 @@
-# SmartBoard - AI-Powered Collaboration Platform
+# InventorySync
 
-A modern, full-stack task management and collaboration platform with AI-powered smart suggestions, built with the MERN stack. Features include real-time board management, Google Gemini AI integration, smart card recommendations, team collaboration, and intuitive drag-and-drop functionality.
+Hey there! 👋 This is a full-stack inventory management system I built to solve real-world stock tracking problems. It's powered by MongoDB, Express, React, and Node.js - the good old MERN stack.
 
-![SmartBoard Banner](https://img.shields.io/badge/MERN-Stack-green) ![React](https://img.shields.io/badge/React-18.3.1-blue) ![Node.js](https://img.shields.io/badge/Node.js-Express-orange) ![AI](https://img.shields.io/badge/AI-Gemini-purple)
+Whether you're tracking products for a small business or managing a larger warehouse, this system helps you keep tabs on everything from stock levels to damage reports.
 
-## ✨ Features
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [How It Works](#how-it-works)
+- [Database Design](#database-design)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [API Reference](#api-reference)
+- [How to Use](#how-to-use)
+- [Environment Setup](#environment-setup)
+- [Deployment Guide](#deployment-guide)
 
-### Core Functionality
-- **Board Management** - Create, edit, and delete project boards with a professional UI
-- **List Organization** - Organize tasks into customizable lists (To Do, In Progress, Done, etc.)
-- **Card System** - Create detailed task cards with titles, descriptions, and due dates
-- **Drag & Drop** - Intuitive drag-and-drop interface powered by `@hello-pangea/dnd`
-- **Real-time Updates** - Live synchronization across all operations
+---
 
-### Smart AI Features 🤖
-- **Google Gemini AI Integration** - Powered by Gemini 2.0 Flash model
-- **AI-Powered Suggestions**:
-  - Automatic due date suggestions based on task content
-  - Smart list movement recommendations
-  - Priority assessment (High/Medium/Low)
-  - Effort estimation
-  - Actionable steps breakdown
-  - Potential blocker identification
-- **Rule-Based Intelligence** - Keyword detection for time-sensitive tasks
-- **Related Card Detection** - Jaccard similarity algorithm for finding related tasks
-- **Smart Tips** - Contextual guidance when no suggestions are available
+## Features
 
-### Collaboration Tools
-- **User Authentication** - Secure JWT-based authentication system
-- **Board Sharing** - Share boards via multiple platforms:
-  - Email
-  - WhatsApp
-  - Telegram
-  - Twitter/X
-  - QR Code generation
-- **Team Collaboration** - Multi-user board access and management
+### Dashboard
+- Real-time stats showing total products, what's running low, and what's completely out
+- Visual charts (pie and bar) to quickly understand your stock situation
+- Top 10 best sellers at a glance
+- Alerts for low stock and out-of-stock items - so you never miss a reorder
 
-### User Experience
-- **Professional UI** - Minimal, aesthetic design with subtle gradients
-- **Responsive Design** - Optimized for desktop and mobile devices
-- **Smooth Animations** - Polished drag-and-drop interactions
-- **Loading States** - Clear feedback for all operations
+### Inventory Management
+- Full CRUD operations (Create, Read, Update, Delete) for products
+- Track everything: SKU, name, category, price, supplier, storage location
+- Smart status indicators:
+  - Gray = Dead stock (0 quantity)
+  - Orange = Low stock (time to reorder)
+  - Normal = You're good!
+- Quick overview cards showing your inventory health
 
-## 🛠 Tech Stack
+### Stock In
+- Simple 3-step process to add stock
+- Select product → Enter quantity → Add details
+- Shows what your new quantity will be before you confirm
+- Multiple reasons supported: Purchase, Returns, Production, Transfers, etc.
+- Complete audit trail of all stock additions
 
-### Frontend
-- **Framework**: React 18.3.1
-- **Build Tool**: Vite 5.4.2
-- **Styling**: Tailwind CSS 3.4.0
-- **Routing**: React Router DOM 6.20.0
-- **Drag & Drop**: @hello-pangea/dnd 18.0.1 (React 18 compatible)
-- **QR Code**: qrcode.react 4.2.0
-- **State Management**: Context API
+### Stock Out
+- Same easy process but for removing stock
+- Built-in validation so you can't remove more than you have
+- Reasons include: Sales, Transfers, Returns to Supplier, Samples, etc.
+- Real-time warnings if you're hitting reorder levels
+- Full movement history
 
-### Backend
-- **Runtime**: Node.js with ES Modules
-- **Framework**: Express 4.18.2
-- **Database**: MongoDB with Mongoose 8.0.0
-- **Authentication**: JSON Web Tokens (jsonwebtoken 9.0.2)
-- **Password Hashing**: bcryptjs 2.4.3
-- **AI Integration**: @google/genai 1.30.0 (Google Gemini API)
-- **Environment Management**: dotenv 16.3.1
-- **CORS**: cors 2.8.5
+### Damage Reports
+- 4-step wizard to report damaged or lost items
+- Comprehensive damage reasons (Physical damage, Expired, Defects, Theft, etc.)
+- Detailed notes for insurance claims
+- Automatically adjusts your inventory
 
-### Development Tools
-- **Package Manager**: npm
-- **Version Control**: Git
-- **Code Style**: ES6+ with ES Modules
-- **API Testing**: REST Client/Postman
+### Reports & Analytics
+- Summary statistics across all movements
+- SKU performance rankings
+- Detailed transaction log with timestamps
+- Filter by type, product, or date range
+- Export everything to CSV
 
-## 🏗 Architecture
+### Security
+- JWT-based authentication
+- Password hashing with bcrypt
+- Role-based access (Admin vs User)
+- Token expiration and session management
 
-### System Design
-```
-┌─────────────────────────────────────────────────────────────┐
-│                         Client Layer                         │
-│  ┌─────────────┐  ┌──────────────┐  ┌──────────────────┐   │
-│  │   React UI  │  │  Auth Context │  │  API Utilities   │   │
-│  └─────────────┘  └──────────────┘  └──────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼ HTTP/REST
-┌─────────────────────────────────────────────────────────────┐
-│                        Express Server                        │
-│  ┌──────────┐  ┌────────────┐  ┌───────────┐  ┌──────────┐│
-│  │  Routes  │→ │Controllers │→ │   Models  │→ │ MongoDB  ││
-│  └──────────┘  └────────────┘  └───────────┘  └──────────┘│
-│                        │                                     │
-│                        ▼                                     │
-│              ┌──────────────────┐                           │
-│              │  AI Engine       │                           │
-│              │  - Gemini API    │                           │
-│              │  - Rule Engine   │                           │
-│              └──────────────────┘                           │
-└─────────────────────────────────────────────────────────────┘
-```
+---
 
-### Data Flow
-1. **User Action** → React Component
-2. **API Call** → Express Route Handler
-3. **Business Logic** → Controller
-4. **Data Processing** → Model/Database
-5. **AI Analysis** (if needed) → Gemini AI + Rule Engine
-6. **Response** → Client Update
+## Tech Stack
 
-### Project Structure
+**Frontend:**
+- React 18.3.1 with Vite for blazing fast builds
+- React Router for navigation
+- Axios for API calls
+- Recharts for those nice-looking charts
+- Tailwind CSS because utility classes > writing CSS
 
-```
-Collaboration/
-├── client/                      # Frontend React application
-│   ├── src/
-│   │   ├── components/          # Reusable UI components
-│   │   │   ├── Card.jsx         # Task card component
-│   │   │   ├── List.jsx         # List container component
-│   │   │   ├── RecommendationsPanel.jsx  # AI suggestions modal
-│   │   │   └── ShareModal.jsx   # Board sharing modal
-│   │   ├── context/             # React Context providers
-│   │   │   └── AuthContext.jsx  # Authentication state
-│   │   ├── pages/               # Page components
-│   │   │   ├── Login.jsx        # Login page
-│   │   │   ├── Register.jsx     # Registration page
-│   │   │   ├── Boards.jsx       # Boards listing
-│   │   │   └── Board.jsx        # Individual board view
-│   │   ├── utils/               # Utility functions
-│   │   │   ├── api.js           # API client setup
-│   │   │   ├── boardsApi.js     # Board API calls
-│   │   │   └── authApi.js       # Auth API calls
-│   │   ├── App.jsx              # Root component
-│   │   ├── main.jsx             # Application entry
-│   │   └── index.css            # Global styles
-│   ├── package.json             # Frontend dependencies
-│   ├── vite.config.js           # Vite configuration
-│   └── tailwind.config.js       # Tailwind CSS config
-│
-├── server/                      # Backend Express application
-│   ├── config/
-│   │   └── db.js                # MongoDB connection
-│   ├── controllers/             # Request handlers
-│   │   ├── authController.js    # Authentication logic
-│   │   ├── boardController.js   # Board CRUD operations
-│   │   ├── listController.js    # List operations
-│   │   └── cardController.js    # Card + recommendations
-│   ├── middleware/
-│   │   └── auth.js              # JWT verification
-│   ├── models/                  # Mongoose schemas
-│   │   ├── User.js              # User model
-│   │   ├── Board.js             # Board model
-│   │   ├── List.js              # List model
-│   │   ├── Card.js              # Card model
-│   │   └── Invite.js            # Invite model
-│   ├── routes/                  # Express routes
-│   │   ├── auth.js              # Auth routes
-│   │   ├── boards.js            # Board routes
-│   │   ├── lists.js             # List routes
-│   │   └── cards.js             # Card routes
-│   ├── utils/                   # Utility modules
-│   │   ├── recommendations.js   # Rule-based engine
-│   │   └── geminiAI.js          # AI integration
-│   ├── .env                     # Environment variables
-│   ├── .env.example             # Example env file
-│   ├── index.js                 # Server entry point
-│   ├── package.json             # Backend dependencies
-│   └── testGemini.js            # AI testing script
-│
-├── .gitignore                   # Git ignore rules
-├── README.md                    # This file
-└── DEPLOYMENT.md                # Deployment guide
+**Backend:**
+- Node.js + Express.js
+- MongoDB with Mongoose
+- JWT for authentication
+- bcrypt for password security
+- Express Validator for input checking
+
+---
+
+## How It Works
+
+Here's a simplified view of how everything connects:
+
+![System Architecture](../docs/architecture.svg)
+
+*The frontend talks to the backend via REST APIs, backend handles business logic and talks to MongoDB, JWT tokens keep everything secure.*
+
+The flow is pretty straightforward:
+1. User logs in → Gets a JWT token
+2. Token gets stored in browser (localStorage)
+3. Every API request includes this token
+4. Backend verifies the token
+5. If valid, operation proceeds
+
+---
+
+## Database Design
+
+Instead of boring ASCII diagrams, here's what the database looks like:
+
+![Database Schema](../docs/database-schema.svg)
+
+**Three main collections:**
+
+1. **Users** - Who's using the system
+   - Stores name, email, hashed password, role
+   - One user can perform many stock movements
+
+2. **Products** - What you're tracking
+   - SKU, name, category, quantity, reorder level, etc.
+   - Each product can have multiple stock movements
+
+3. **Stock Movements** - The transaction log
+   - Every addition, removal, or damage report
+   - Links to both the product and the user who made the change
+   - Tracks previous and new stock levels
+
+The relationships are simple:
+- One User → Many Stock Movements
+- One Product → Many Stock Movements
+
+**Indexes for speed:**
+- Users: Unique email
+- Products: Unique SKU (indexed)
+- Stock Movements: Indexed on product ID, user ID, and date
+
+## Getting Started
+
+You'll need Node.js (v16+), npm, MongoDB, and Git installed first.
+
+**1. Clone this repo:**
+
+```bash
+git clone https://github.com/rizwimohdaltamash/MedSync77.git
+cd InventoryManagement
 ```
 
-### Key Files Explained
+**2. Set up the backend:**
 
-#### Frontend
-- **App.jsx**: Main routing and layout structure
-- **Board.jsx**: Core board interface with drag-and-drop
-- **RecommendationsPanel.jsx**: Displays AI suggestions in a modal
-- **ShareModal.jsx**: Multi-platform board sharing interface
-- **boardsApi.js**: Centralized API calls for board operations
-
-#### Backend
-- **index.js**: Express server setup, middleware, routes
-- **cardController.js**: Handles card CRUD and recommendation requests
-- **recommendations.js**: Rule-based suggestion algorithms (date parsing, list movement, similarity)
-- **geminiAI.js**: Google Gemini AI integration wrapper
-
-## 📊 Database Schema
-
-### User Model
-```javascript
-{
-  name: String (required),
-  email: String (required, unique),
-  password: String (required, hashed),
-  createdAt: Date (default: now)
-}
-```
-
-### Board Model
-```javascript
-{
-  title: String (required),
-  background: String (default: '#0079bf'),
-  owner: ObjectId (ref: 'User', required),
-  members: [ObjectId] (ref: 'User'),
-  createdAt: Date (default: now)
-}
-```
-
-### List Model
-```javascript
-{
-  title: String (required),
-  board: ObjectId (ref: 'Board', required),
-  position: Number (default: 0),
-  createdAt: Date (default: now)
-}
-```
-
-### Card Model
-```javascript
-{
-  title: String (required),
-  description: String,
-  list: ObjectId (ref: 'List', required),
-  board: ObjectId (ref: 'Board', required),
-  position: Number (default: 0),
-  dueDate: Date,
-  labels: [String],
-  assignedTo: [ObjectId] (ref: 'User'),
-  createdBy: ObjectId (ref: 'User'),
-  createdAt: Date (default: now)
-}
-```
-
-### Invite Model
-```javascript
-{
-  board: ObjectId (ref: 'Board', required),
-  email: String (required),
-  token: String (required, unique),
-  status: String (enum: ['pending', 'accepted'], default: 'pending'),
-  expiresAt: Date (required),
-  createdAt: Date (default: now)
-}
-```
-
-## 🤖 AI Integration
-
-### Recommendation Engine Architecture
-
-The recommendation system uses a **hybrid approach** combining rule-based logic and Google Gemini AI:
-
-#### 1. Rule-Based Engine
-Located in `server/utils/recommendations.js`
-
-**Date Recognition**:
-```javascript
-// Detects keywords like: tomorrow, next week, urgent, today
-parseDateKeywords(text)
-```
-
-**List Movement**:
-```javascript
-// Detects status keywords: started, testing, completed, blocked
-suggestListMovement(text, lists)
-```
-
-**Similarity Detection**:
-```javascript
-// Jaccard similarity for finding related cards
-// Formula: |A ∩ B| / |A ∪ B|
-findRelatedCards(card, allCards)
-```
-
-#### 2. AI-Powered Engine
-Located in `server/utils/geminiAI.js`
-
-**Gemini AI Integration**:
-```javascript
-import { GoogleGenAI } from '@google/genai';
-
-const ai = new GoogleGenAI({});
-
-// Generate insights using Gemini 2.0 Flash
-const response = await ai.models.generateContent({
-  model: 'gemini-2.0-flash-exp',
-  contents: prompt
-});
-```
-
-**AI Features**:
-- Natural language understanding of task context
-- Context-aware priority and effort estimation
-- Actionable step generation from task descriptions
-- Proactive blocker identification
-- Smart due date recommendations
-
-### How It Works
-
-1. **User clicks "Get Suggestions"** on a card
-2. **Backend processes request**:
-   - Rule-based engine analyzes keywords
-   - Gemini AI analyzes task context
-   - Related cards detected via similarity
-3. **Response combines**:
-   - Rule-based suggestions (fast, keyword-driven)
-   - AI insights (intelligent, context-aware)
-   - Smart tips (fallback guidance)
-4. **Frontend displays** in RecommendationsPanel modal
-
-### Customizing AI Behavior
-
-Edit `server/utils/geminiAI.js` to modify the AI prompt:
-
-```javascript
-const prompt = `You are a smart project management assistant...
-
-Task Title: "${card.title}"
-Task Description: "${card.description}"
-
-Provide suggestions in JSON format:
-{
-  "dueDateSuggestion": { ... },
-  "listMovement": { ... },
-  "insights": {
-    "priority": "high/medium/low",
-    "estimatedEffort": "Brief estimate",
-    "actionableSteps": ["step1", "step2"],
-    "potentialBlockers": ["blocker1"]
-  }
-}
-`;
-```
-
-### Fallback Mechanism
-
-If AI fails or returns no results:
-1. Rule-based suggestions are shown
-2. Smart tips guide users to add better keywords:
-   - 💡 Add time keywords like "tomorrow", "urgent"
-   - 🎯 Use status keywords like "started", "testing"
-   - 🔗 Create related cards for connection suggestions
-
-## 📦 Installation
-
-### Prerequisites
-- Node.js (v18 or higher)
-- MongoDB Atlas account or local MongoDB instance
-- Google Gemini API key ([Get it here](https://aistudio.google.com/app/apikey))
-- npm package manager
-
-### Step-by-Step Setup
-
-1. **Clone the Repository**
-   ```bash
-   git clone <repository-url>
-   cd Collaboration
-   ```
-
-2. **Install Backend Dependencies**
-   ```bash
-   cd server
-   npm install
-   ```
-
-3. **Install Frontend Dependencies**
-   ```bash
-   cd ../client
-   npm install
-   ```
-
-4. **Configure Environment Variables**
-
-   Create `server/.env`:
-   ```env
-   # MongoDB Connection
-   MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/collaborationplatform
-   
-   # JWT Secret
-   JWT_SECRET=your_super_secret_jwt_key_here_change_in_production
-   
-   # Server Configuration
-   PORT=5000
-   
-   # Google Gemini AI
-   GEMINI_API_KEY=your_gemini_api_key_here
-   GEMINI_PROJECT_NAME=projects/803031514358
-   GEMINI_PROJECT_NUMBER=803031514358
-   ```
-
-   Create `client/.env` (if needed):
-   ```env
-   VITE_API_URL=http://localhost:5000
-   ```
-
-5. **MongoDB Setup**
-   - Create a MongoDB Atlas account at [mongodb.com](https://www.mongodb.com/cloud/atlas)
-   - Create a new cluster
-   - Create a database user with read/write permissions
-   - Whitelist your IP address (or use 0.0.0.0/0 for development)
-   - Get your connection string and update `MONGO_URI` in `.env`
-
-6. **Gemini AI Setup**
-   - Visit [Google AI Studio](https://aistudio.google.com/app/apikey)
-   - Create a new API key
-   - Copy the key and update `GEMINI_API_KEY` in `.env`
-   - Ensure your project has the Generative Language API enabled
-
-7. **Start the Application**
-   
-   Terminal 1 - Backend:
-   ```bash
-   cd server
-   npm run dev
-   ```
-   
-   Terminal 2 - Frontend:
-   ```bash
-   cd client
-   npm run dev
-   ```
-
-8. **Access the Application**
-   - Frontend: `http://localhost:5173`
-   - Backend API: `http://localhost:5000`
-
-## 🚀 Usage
-
-### Creating Your First Board
-1. **Register/Login**: Create an account or log in
-2. **Create Board**: Click "Create New Board" and enter board details
-3. **Add Lists**: Create lists like "To Do", "In Progress", "Done"
-4. **Add Cards**: Add task cards to your lists
-5. **Get Suggestions**: Click "Get Suggestions" on any card for AI recommendations
-
-### Using AI Suggestions
-The AI analyzes your cards and provides:
-- **Due Date Suggestions**: Based on keywords and urgency
-- **List Movement**: Recommends moving cards between lists
-- **Priority Assessment**: High/Medium/Low priority classification
-- **Effort Estimation**: Time and complexity estimates
-- **Actionable Steps**: Breakdown of tasks
-- **Potential Blockers**: Identifies possible issues
-
-### Sharing Boards
-1. Click the share icon on any board
-2. Choose your preferred method:
-   - Copy link
-   - Share via email
-   - Share on WhatsApp/Telegram/Twitter
-   - Generate QR code for mobile access
-
-### Drag & Drop
-- Drag cards between lists
-- Reorder cards within lists
-- Visual feedback during drag operations
-- Automatic position saving
-
-## 📚 API Documentation
-
-### Authentication Endpoints
-
-#### Register User
-```http
-POST /auth/register
-Content-Type: application/json
-
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "password": "securePassword123"
-}
-```
-
-#### Login User
-```http
-POST /auth/login
-Content-Type: application/json
-
-{
-  "email": "john@example.com",
-  "password": "securePassword123"
-}
-```
-
-### Board Endpoints
-
-#### Get All Boards
-```http
-GET /boards
-Authorization: Bearer <token>
-```
-
-#### Create Board
-```http
-POST /boards
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "title": "My Project",
-  "description": "Project description"
-}
-```
-
-#### Update Board
-```http
-PUT /boards/:boardId
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "title": "Updated Title"
-}
-```
-
-#### Delete Board
-```http
-DELETE /boards/:boardId
-Authorization: Bearer <token>
-```
-
-### List Endpoints
-
-#### Get Lists by Board
-```http
-GET /lists?board=<boardId>
-Authorization: Bearer <token>
-```
-
-#### Create List
-```http
-POST /lists
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "title": "To Do",
-  "board": "boardId"
-}
-```
-
-### Card Endpoints
-
-#### Get Cards by List
-```http
-GET /cards?list=<listId>
-Authorization: Bearer <token>
-```
-
-#### Create Card
-```http
-POST /cards
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "title": "Implement feature",
-  "description": "Detailed description",
-  "list": "listId",
-  "dueDate": "2025-12-31"
-}
-```
-
-#### Update Card
-```http
-PUT /cards/:cardId
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "title": "Updated title",
-  "description": "Updated description"
-}
-```
-
-#### Move Card
-```http
-PUT /cards/:cardId/move
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "list": "newListId",
-  "position": 1
-}
-```
-
-#### Get Card Recommendations (AI + Rule-based)
-```http
-GET /cards/:cardId/recommendations
-Authorization: Bearer <token>
-```
-
-**Response Example**:
-```json
-{
-  "suggestedDueDates": [
-    {
-      "date": "2025-11-25",
-      "reason": "Detected 'tomorrow' keyword",
-      "confidence": "high"
-    }
-  ],
-  "suggestedListMovement": {
-    "targetList": "In Progress",
-    "reason": "Detected 'started working' keyword"
-  },
-  "relatedCards": [
-    {
-      "_id": "cardId",
-      "title": "Similar Card",
-      "similarity": 0.75
-    }
-  ],
-  "aiInsights": {
-    "priority": "high",
-    "estimatedEffort": "2-3 hours",
-    "actionableSteps": ["Step 1", "Step 2"],
-    "potentialBlockers": ["Dependency on X"]
-  },
-  "smartTips": [
-    {
-      "icon": "💡",
-      "tip": "Add time-related keywords for better date suggestions"
-    }
-  ]
-}
-```
-
-## 🔒 Security Features
-
-- **Password Hashing**: bcryptjs with 10 salt rounds
-- **JWT Authentication**: Stateless authentication with secure tokens
-- **Protected Routes**: Middleware-based route protection
-- **Input Validation**: Server-side validation for all inputs
-- **CORS Configuration**: Controlled cross-origin requests
-- **Environment Variables**: Sensitive data stored in .env files
-- **API Key Management**: Secure Gemini API key handling
-
-## 🎨 Design Philosophy
-
-### UI/UX Principles
-- **Minimal & Professional**: Clean interface without excessive colors
-- **Subtle Gradients**: Gentle gradients for visual hierarchy
-- **Consistent Spacing**: Tailwind's spacing scale for uniformity
-- **Responsive First**: Mobile-friendly from the ground up
-- **Fast Interactions**: Optimistic UI updates for better UX
-
-### Color Scheme
-- **Primary**: Blue gradients for boards and cards
-- **Accent**: Purple for AI-powered features
-- **Success**: Green for completion states
-- **Warning**: Yellow for time-sensitive tasks
-- **Neutral**: Gray scale for backgrounds and text
-
-## 🧪 Testing
-
-### Testing the AI Integration
-
-Run the test script:
 ```bash
 cd server
-node testGemini.js
+npm install
+
+# Create a .env file with these variables:
+PORT=5000
+MONGODB_URI=mongodb+srv://your-username:your-password@cluster.mongodb.net/InventoryManagementDB?retryWrites=true&w=majority
+JWT_SECRET=your_super_secret_jwt_key_change_this_in_production
+JWT_EXPIRE=7d
+NODE_ENV=production
+
+npm start
 ```
 
-### Manual Testing Checklist
-- [ ] User registration and login
-- [ ] Create/edit/delete boards
-- [ ] Create/edit/delete lists
-- [ ] Create/edit/delete cards
-- [ ] Drag and drop cards between lists
-- [ ] Get AI suggestions on cards
-- [ ] Share board via different methods
-- [ ] Test responsive design on mobile
+**3. Set up the frontend:**
 
-## 🚀 Deployment
+```bash
+# Open a new terminal
+cd client
+npm install
+npm run dev
+```
 
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions including:
-- Hosting on Vercel/Netlify (Frontend)
-- Hosting on Render/Railway (Backend)
-- MongoDB Atlas configuration
-- Environment variable setup
-- Domain configuration
+**4. Access the app:**
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:5000/api
 
-## 🗺 Roadmap
+**Quick tip:** After signing up, manually set your user role to "admin" in MongoDB if you want full access:
 
-### Upcoming Features
-- [ ] Real-time collaboration with WebSockets
-- [ ] File attachments on cards
-- [ ] Comments and activity feed
-- [ ] Labels and tags system
-- [ ] Advanced filtering and search
-- [ ] Calendar view for due dates
-- [ ] Email notifications
-- [ ] Mobile app (React Native)
-- [ ] Gantt chart view
-- [ ] Time tracking integration
-- [ ] Card templates
-- [ ] Board analytics dashboard
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Development Guidelines
-- Follow existing code style and structure
-- Add comments for complex logic
-- Test thoroughly before submitting
-- Update documentation as needed
+```javascript
+db.users.updateOne(
+  { email: "your-email@example.com" },
+  { $set: { role: "admin" } }
+)
+```
 
 ---
 
-## 📝 License
+## Project Structure
 
-This project is open source and available under the [MIT License](LICENSE).
+Pretty straightforward structure here:
+
+```
+InventoryManagement/
+│
+├── client/                      # React frontend
+│   ├── src/
+│   │   ├── components/          # Navbar, Protected Routes
+│   │   ├── pages/               # All the main pages
+│   │   ├── services/            # API handling
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── package.json
+│   └── vite.config.js
+│
+└── server/                      # Express backend
+    ├── config/
+    │   └── db.js               # MongoDB connection
+    ├── controllers/            # Business logic
+    ├── middleware/
+    │   └── auth.js            # JWT verification
+    ├── models/                # Mongoose schemas
+    ├── routes/                # API endpoints
+    ├── .env                   # Environment variables
+    └── server.js              # Entry point
+```
 
 ---
 
-## 👥 Authors
+## API Reference
 
-- **Mohd. Altamash Rizwi** - Initial work and development
+Base URL: `http://localhost:5000/api`
+
+### Auth
+- `POST /api/auth/register` - Sign up
+- `POST /api/auth/login` - Log in
+
+### Products
+- `GET /api/products` - Get all products
+- `POST /api/products` - Create product
+- `PUT /api/products/:id` - Update product
+- `DELETE /api/products/:id` - Delete product
+
+### Stock
+- `GET /api/stock` - Get movements (supports filters)
+- `POST /api/stock/in` - Add stock
+- `POST /api/stock/out` - Remove stock
+- `POST /api/stock/damage` - Report damage
+
+### Dashboard
+- `GET /api/dashboard/stats` - Overall statistics
+- `GET /api/dashboard/low-stock` - Products below reorder level
+- `GET /api/dashboard/out-of-stock` - Empty inventory items
+- `GET /api/dashboard/top-skus` - Best performers
+- `GET /api/dashboard/stock-distribution` - For pie chart
+- `GET /api/dashboard/category-distribution` - For bar chart
+
+All protected routes need the JWT token in the Authorization header:
+```
+Authorization: Bearer <your-token>
+```
 
 ---
 
-## 🙏 Acknowledgments
+## How to Use
 
-- React and Vite teams for amazing development tools
-- MongoDB for database solutions
-- Google for Gemini AI API
-- Tailwind CSS for styling framework
-- @hello-pangea/dnd for drag-and-drop functionality
-- Inspired by Trello's board management system
+**Adding Products:**
+1. Head to Inventory page
+2. Click "Add Product"
+3. Fill in the details (SKU must be unique)
+4. Save it
+
+**Recording Stock In:**
+1. Go to Stock In page
+2. Pick your product
+3. Enter how much you're adding
+4. Choose a reason and add any notes
+5. Submit
+
+**Recording Stock Out:**
+1. Go to Stock Out page
+2. Select product
+3. Enter quantity (system won't let you take out more than you have)
+4. Pick a reason
+5. Done
+
+**Damage Reports:**
+1. Navigate to Damage page
+2. Select the affected product
+3. Enter damaged quantity
+4. Choose the damage type
+5. Add detailed notes (important for claims)
+6. Submit
+
+**Viewing Reports:**
+1. Reports page shows everything
+2. Use filters to narrow down what you're looking for
+3. Export to CSV if you need it in Excel
 
 ---
 
-## 📞 Support
+## Environment Setup
 
-For support, open an issue in the repository or contact the maintainers.
+**Backend (.env):**
+
+```env
+PORT=5000
+NODE_ENV=production
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/InventoryManagementDB
+JWT_SECRET=make_this_really_long_and_random_at_least_32_characters
+JWT_EXPIRE=7d
+```
+
+**Frontend:**
+If needed, create a `.env` in the client folder:
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```
 
 ---
 
-**Built with ❤️ using MERN Stack + Google Gemini AI**
+## Deployment Guide
 
-#
+**Frontend (Vercel is easiest):**
+
+```bash
+cd client
+npm run build
+npm install -g vercel
+vercel --prod
+```
+
+Don't forget to update the API URL in [api.js](client/src/services/api.js) to point to your deployed backend.
+
+**Backend (Render works great):**
+1. Push your code to GitHub
+2. Connect the repo in Render
+3. Add your environment variables
+4. Deploy
+
+**MongoDB:**
+1. Create a free cluster on MongoDB Atlas
+2. Get your connection string
+3. Whitelist your IP (or 0.0.0.0/0 for anywhere)
+4. Update MONGODB_URI in your .env
+
+---
+
+## A Few Notes
+
+## Built By
+
+**Mohd. Altamash Rizwi**  
+[GitHub](https://github.com/rizwimohdaltamash)
+
+---
+
+## Thanks To
+
+- The React team for making frontend dev enjoyable
+- Tailwind for saving me from writing CSS
+- Recharts for beautiful charts out of the box
+- MongoDB for handling my data
+- Everyone who uses this and provides feedback
+
+---
+
+Made with coffee and late nights ☕
+
+
 
