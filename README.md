@@ -1,307 +1,827 @@
-# InventorySync
+<div align="center">
 
-Hey there! 👋 This is a full-stack inventory management system I built to solve real-world stock tracking problems. It's powered by MongoDB, Express, React, and Node.js - the good old MERN stack.
+# 📦 InventorySync
 
-Whether you're tracking products for a small business or managing a larger warehouse, this system helps you keep tabs on everything from stock levels to damage reports.
+### Professional Inventory Management System
 
+*A comprehensive, full-stack inventory management solution built with the MERN stack*
+
+[![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge&logo=express)](https://expressjs.com/)
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+
+</div>
+
+---
+
+## 🎯 Overview
+
+**InventorySync** is a modern, full-featured inventory management system designed for businesses to efficiently track products, manage stock movements, and analyze inventory performance. With real-time updates, automated alerts, and comprehensive reporting, it streamlines your entire inventory workflow.
+
+### 🌟 Key Highlights
+
+- 📊 **Real-time Dashboard** with visual analytics
+- 📦 **Complete Product Management** with SKU tracking
+- 📥📤 **Stock Movement Tracking** (In/Out/Damage)
+- 📈 **Advanced Reports & Analytics** with CSV export
+- 🔐 **Secure Authentication** with JWT
+- 🎨 **Professional UI** with Tailwind CSS
+- ⚡ **Fast & Responsive** built with Vite
+
+---
+
+## 📋 Table of Contents
+
+**Getting Started**
 - [Features](#features)
 - [Tech Stack](#tech-stack)
-- [How It Works](#how-it-works)
-- [Database Design](#database-design)
-- [Getting Started](#getting-started)
+- [Installation & Setup](#installation--setup)
+
+**Documentation**
+- [Architecture](#architecture)
+- [Database Schema](#database-schema-er-diagram)
+- [API Documentation](#api-documentation)
 - [Project Structure](#project-structure)
-- [API Reference](#api-reference)
-- [How to Use](#how-to-use)
-- [Environment Setup](#environment-setup)
-- [Deployment Guide](#deployment-guide)
+
+**Usage & Deployment**
+- [Usage Guide](#usage-guide)
+- [Environment Variables](#environment-variables)
+- [Deployment](#deployment)
 
 ---
 
-## Features
+## ✨ Features
 
-### Dashboard
-- Real-time stats showing total products, what's running low, and what's completely out
-- Visual charts (pie and bar) to quickly understand your stock situation
-- Top 10 best sellers at a glance
-- Alerts for low stock and out-of-stock items - so you never miss a reorder
+### 📊 Dashboard
+- **Real-time Statistics**: Total products, low stock alerts, out of stock items, and in-stock products
+- **Visual Analytics**: 
+  - Pie chart showing stock distribution (Low Stock, Out of Stock, In Stock)
+  - Bar chart displaying product categories distribution
+- **Top 10 Best Selling Products**: Ranked list with sales data
+- **Low Stock Alerts**: Instant notifications for products below reorder levels
+- **Out of Stock Items**: Quick access to items requiring immediate restocking
 
-### Inventory Management
-- Full CRUD operations (Create, Read, Update, Delete) for products
-- Track everything: SKU, name, category, price, supplier, storage location
-- Smart status indicators:
-  - Gray = Dead stock (0 quantity)
-  - Orange = Low stock (time to reorder)
-  - Normal = You're good!
-- Quick overview cards showing your inventory health
+### 📦 Inventory Management
+- **Product CRUD Operations**: Create, Read, Update, Delete products
+- **Product Details**:
+  - SKU (Stock Keeping Unit)
+  - Product Name & Description
+  - Category & Supplier
+  - Unit Price
+  - Current Quantity
+  - Reorder Level
+  - Storage Location
+- **Stock Status Indicators**:
+  - Dead Stock (Out of stock) - Gray highlight
+  - Low Stock (At/below reorder level) - Orange highlight
+  - In Stock (Above reorder level) - Normal display
+- **Visual Status Cards**: Quick overview of total products, low stock, dead stock, and in-stock items
 
-### Stock In
-- Simple 3-step process to add stock
-- Select product → Enter quantity → Add details
-- Shows what your new quantity will be before you confirm
-- Multiple reasons supported: Purchase, Returns, Production, Transfers, etc.
-- Complete audit trail of all stock additions
+### 📥 Stock In Management
+- **Multi-step Form Process**:
+  1. Select Product/SKU
+  2. Enter Quantity to Add
+  3. Additional Details (Reason, Reference, Notes)
+- **Real-time Calculations**: Shows new quantity after addition
+- **Supported Reasons**:
+  - Purchase
+  - Return from Customer
+  - Production
+  - Transfer
+  - Adjustment
+- **Movement Tracking**: Recent stock-in transactions with full audit trail
 
-### Stock Out
-- Same easy process but for removing stock
-- Built-in validation so you can't remove more than you have
-- Reasons include: Sales, Transfers, Returns to Supplier, Samples, etc.
-- Real-time warnings if you're hitting reorder levels
-- Full movement history
+### 📤 Stock Out Management
+- **Multi-step Form Process**:
+  1. Select Product/SKU
+  2. Enter Quantity to Remove
+  3. Additional Details
+- **Validation**: Prevents removing more stock than available
+- **Real-time Updates**: Shows new quantity and reorder level warnings
+- **Supported Reasons**:
+  - Sale
+  - Transfer
+  - Return to Supplier
+  - Sample
+  - Internal Use
+  - Adjustment
+- **Movement History**: Complete log of all stock-out transactions
 
-### Damage Reports
-- 4-step wizard to report damaged or lost items
-- Comprehensive damage reasons (Physical damage, Expired, Defects, Theft, etc.)
-- Detailed notes for insurance claims
-- Automatically adjusts your inventory
+### ⚠️ Damage/Adjustment Reporting
+- **4-step Damage Report Process**:
+  1. Select Product
+  2. Enter Damaged Quantity
+  3. Detailed Reason & Description
+  4. Submit Report
+- **Comprehensive Damage Reasons**:
+  - Physical Damage
+  - Expired/Past Best-By Date
+  - Manufacturing Defect
+  - Water/Fire Damage
+  - Contamination
+  - Theft/Loss
+  - Quality Control Failure
+  - Packaging Damage
+  - Incorrect Storage
+  - Customer Return - Damaged
+  - Inventory Adjustment
+- **Detailed Documentation**: Required notes for insurance and quality control
 
-### Reports & Analytics
-- Summary statistics across all movements
-- SKU performance rankings
-- Detailed transaction log with timestamps
-- Filter by type, product, or date range
-- Export everything to CSV
+### 📈 Reports & Analytics
+- **Summary Statistics**:
+  - Total Stock In
+  - Total Stock Out
+  - Total Damaged
+  - Total Movements
+- **SKU Performance Analysis**: Rankings by sales volume and transaction count
+- **Stock Movement History**: Detailed transaction log with:
+  - Date & Time stamps
+  - Movement Type (In/Out/Damage)
+  - Product Details
+  - Quantity Changes
+  - Previous & New Stock levels
+  - Performed By user
+- **Advanced Filtering**:
+  - Filter by Movement Type
+  - Filter by Product
+  - Date Range filtering
+- **Data Export**: Export reports to CSV format
 
-### Security
-- JWT-based authentication
-- Password hashing with bcrypt
-- Role-based access (Admin vs User)
-- Token expiration and session management
+### 🔐 Authentication & Authorization
+- **User Authentication**: JWT-based secure authentication
+- **Role-Based Access Control**:
+  - Admin: Full access to all features
+  - User: Limited access (configurable)
+- **Secure Password Storage**: Bcrypt hashing
+- **Session Management**: Token-based with expiration
 
 ---
 
-## Tech Stack
+## 🛠 Tech Stack
 
-**Frontend:**
-- React 18.3.1 with Vite for blazing fast builds
-- React Router for navigation
-- Axios for API calls
-- Recharts for those nice-looking charts
-- Tailwind CSS because utility classes > writing CSS
+### Frontend
+- **React 18.3.1** - UI library
+- **Vite** - Build tool and development server
+- **React Router DOM 6.22.0** - Client-side routing
+- **Axios 1.6.7** - HTTP client for API requests
+- **Recharts 2.12.0** - Data visualization (charts)
+- **React Icons** - Icon library
+- **Tailwind CSS 3.4.0** - Utility-first CSS framework
+- **PostCSS** - CSS processing
 
-**Backend:**
-- Node.js + Express.js
-- MongoDB with Mongoose
-- JWT for authentication
-- bcrypt for password security
-- Express Validator for input checking
-
----
-
-## How It Works
-
-Here's a simplified view of how everything connects:
-
-![System Architecture](../docs/architecture.svg)
-
-*The frontend talks to the backend via REST APIs, backend handles business logic and talks to MongoDB, JWT tokens keep everything secure.*
-
-The flow is pretty straightforward:
-1. User logs in → Gets a JWT token
-2. Token gets stored in browser (localStorage)
-3. Every API request includes this token
-4. Backend verifies the token
-5. If valid, operation proceeds
+### Backend
+- **Node.js** - Runtime environment
+- **Express.js 4.18.2** - Web application framework
+- **MongoDB** - NoSQL database
+- **Mongoose 8.1.1** - MongoDB ODM
+- **JWT (jsonwebtoken 9.0.2)** - Authentication tokens
+- **Bcryptjs 2.4.3** - Password hashing
+- **Express Validator** - Input validation
+- **CORS** - Cross-origin resource sharing
+- **Dotenv** - Environment variable management
 
 ---
 
-## Database Design
+## 🏗 Architecture
 
-Instead of boring ASCII diagrams, here's what the database looks like:
+### System Architecture
 
-![Database Schema](../docs/database-schema.svg)
+```
+┌─────────────────────────────────────────────────────────────┐
+│                         CLIENT TIER                          │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │              React Frontend (Port 5173)              │   │
+│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐         │   │
+│  │  │  Pages   │  │Components│  │ Services │         │   │
+│  │  │          │  │          │  │          │         │   │
+│  │  │ - Login  │  │ - Navbar │  │  - API   │         │   │
+│  │  │ - Signup │  │ - Protected│ Handler  │         │   │
+│  │  │ - Dashboard│  Route   │  │          │         │   │
+│  │  │ - Inventory│           │  │          │         │   │
+│  │  │ - StockIn │            │  │          │         │   │
+│  │  │ - StockOut│            │  │          │         │   │
+│  │  │ - Damage  │            │  │          │         │   │
+│  │  │ - Reports │            │  │          │         │   │
+│  │  └──────────┘  └──────────┘  └──────────┘         │   │
+│  └─────────────────────────────────────────────────────┘   │
+└───────────────────────┬─────────────────────────────────────┘
+                        │ HTTP/REST API (Axios)
+                        │ JWT Token Authentication
+                        ▼
+┌─────────────────────────────────────────────────────────────┐
+│                       APPLICATION TIER                       │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │           Express.js Backend (Port 5000)             │   │
+│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐         │   │
+│  │  │  Routes  │  │Controllers│  │Middleware│         │   │
+│  │  │          │  │          │  │          │         │   │
+│  │  │ - Auth   │  │ - Auth   │  │ - JWT    │         │   │
+│  │  │ - Product│  │ - Product│  │   Auth   │         │   │
+│  │  │ - Stock  │  │ - Stock  │  │          │         │   │
+│  │  │ - Dashboard│ - Dashboard│           │         │   │
+│  │  └──────────┘  └──────────┘  └──────────┘         │   │
+│  └─────────────────────────────────────────────────────┘   │
+└───────────────────────┬─────────────────────────────────────┘
+                        │ Mongoose ODM
+                        ▼
+┌─────────────────────────────────────────────────────────────┐
+│                         DATA TIER                            │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │         MongoDB Database (Cloud/Local)               │   │
+│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐         │   │
+│  │  │  users   │  │ products │  │ stock    │         │   │
+│  │  │Collection│  │Collection│  │movements │         │   │
+│  │  │          │  │          │  │Collection│         │   │
+│  │  └──────────┘  └──────────┘  └──────────┘         │   │
+│  └─────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
+```
 
-**Three main collections:**
+### Application Flow
 
-1. **Users** - Who's using the system
-   - Stores name, email, hashed password, role
-   - One user can perform many stock movements
+```
+User → Login → JWT Token → Protected Routes → API Calls → Database
+                    ↓
+            Stored in localStorage
+                    ↓
+        Included in all API requests
+                    ↓
+        Verified by auth middleware
+                    ↓
+            Authorized Operations
+```
 
-2. **Products** - What you're tracking
-   - SKU, name, category, quantity, reorder level, etc.
-   - Each product can have multiple stock movements
+### Component Architecture
 
-3. **Stock Movements** - The transaction log
-   - Every addition, removal, or damage report
-   - Links to both the product and the user who made the change
-   - Tracks previous and new stock levels
+```
+App.jsx
+├── Navbar (Always visible after login)
+│   ├── Logo & Brand
+│   ├── Navigation Links
+│   └── User Profile & Logout
+│
+├── Routes (React Router)
+│   ├── Public Routes
+│   │   ├── /login → Login Page
+│   │   └── /signup → Signup Page
+│   │
+│   └── Protected Routes (Require Authentication)
+│       ├── /dashboard → Dashboard Page
+│       ├── /inventory → Inventory Page
+│       ├── /stock-in → Stock In Page
+│       ├── /stock-out → Stock Out Page
+│       ├── /damage → Damage Report Page
+│       └── /reports → Reports & Analytics Page
+```
 
-The relationships are simple:
-- One User → Many Stock Movements
-- One Product → Many Stock Movements
+---
 
-**Indexes for speed:**
-- Users: Unique email
-- Products: Unique SKU (indexed)
-- Stock Movements: Indexed on product ID, user ID, and date
+## 🗄 Database Schema (ER Diagram)
 
-## Getting Started
+### Entity Relationship Diagram
 
-You'll need Node.js (v16+), npm, MongoDB, and Git installed first.
+```
+┌─────────────────────────────────────────┐
+│              USERS                       │
+├─────────────────────────────────────────┤
+│ _id          : ObjectId (PK)             │
+│ name         : String                    │
+│ email        : String (Unique)           │
+│ password     : String (Hashed)           │
+│ role         : String (admin/user)       │
+│ createdAt    : Date                      │
+│ updatedAt    : Date                      │
+└──────────────┬──────────────────────────┘
+               │ 1
+               │
+               │ Performed By
+               │
+               │ *
+┌──────────────▼──────────────────────────┐
+│         STOCK MOVEMENTS                  │
+├─────────────────────────────────────────┤
+│ _id          : ObjectId (PK)             │
+│ inventoryId  : ObjectId (FK) ────────┐  │
+│ type         : String (in/out/damage)│  │
+│ quantity     : Number                │  │
+│ reason       : String                │  │
+│ reference    : String (optional)     │  │
+│ notes        : String (optional)     │  │
+│ previousStock: Number                │  │
+│ newStock     : Number                │  │
+│ performedBy  : ObjectId (FK)         │  │
+│ date         : Date                  │  │
+│ createdAt    : Date                  │  │
+│ updatedAt    : Date                  │  │
+└─────────────────────────────────────┬┘  │
+                                      │   │
+                               * │   │
+                                 ▼   │ *
+┌─────────────────────────────────────▼───┐
+│             PRODUCTS                     │
+├─────────────────────────────────────────┤
+│ _id          : ObjectId (PK)             │
+│ sku          : String (Unique, Indexed)  │
+│ name         : String                    │
+│ description  : String (optional)         │
+│ category     : String                    │
+│ quantity     : Number (Default: 0)       │
+│ reorderLevel : Number (Default: 10)      │
+│ unitPrice    : Number                    │
+│ supplier     : String (optional)         │
+│ location     : String (optional)         │
+│ createdAt    : Date                      │
+│ updatedAt    : Date                      │
+└─────────────────────────────────────────┘
+```
 
-**1. Clone this repo:**
+### Relationships
+
+1. **Users → Stock Movements (1:N)**
+   - One user can perform multiple stock movements
+   - `performedBy` field in Stock Movements references `_id` in Users
+
+2. **Products → Stock Movements (1:N)**
+   - One product can have multiple stock movements
+   - `inventoryId` field in Stock Movements references `_id` in Products
+
+### Indexes
+
+- **Users**: `email` (unique)
+- **Products**: `sku` (unique, indexed for fast lookups)
+- **Stock Movements**: `inventoryId`, `performedBy`, `date` (for efficient querying)
+
+---
+
+## 📦 Installation & Setup
+
+### Prerequisites
+
+- **Node.js** (v16 or higher)
+- **npm** or **yarn**
+- **MongoDB** (Local or MongoDB Atlas account)
+- **Git**
+
+### Step 1: Clone the Repository
 
 ```bash
 git clone https://github.com/rizwimohdaltamash/MedSync77.git
 cd InventoryManagement
 ```
 
-**2. Set up the backend:**
+### Step 2: Backend Setup
 
 ```bash
+# Navigate to server directory
 cd server
+
+# Install dependencies
 npm install
 
-# Create a .env file with these variables:
+# Create .env file
+# Copy and configure the following:
 PORT=5000
 MONGODB_URI=mongodb+srv://your-username:your-password@cluster.mongodb.net/InventoryManagementDB?retryWrites=true&w=majority
 JWT_SECRET=your_super_secret_jwt_key_change_this_in_production
 JWT_EXPIRE=7d
 NODE_ENV=production
 
+# Start the server
 npm start
 ```
 
-**3. Set up the frontend:**
+### Step 3: Frontend Setup
 
 ```bash
-# Open a new terminal
+# Open new terminal and navigate to client directory
 cd client
+
+# Install dependencies
 npm install
+
+# Start development server
 npm run dev
 ```
 
-**4. Access the app:**
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:5000/api
+### Step 4: Access the Application
 
-**Quick tip:** After signing up, manually set your user role to "admin" in MongoDB if you want full access:
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:5000/api
+
+### Default Admin Credentials
+
+Create an admin account through the signup page, then manually update the role in MongoDB:
 
 ```javascript
 db.users.updateOne(
-  { email: "your-email@example.com" },
+  { email: "admin@example.com" },
   { $set: { role: "admin" } }
 )
 ```
 
 ---
 
-## Project Structure
-
-Pretty straightforward structure here:
+## 📁 Project Structure
 
 ```
 InventoryManagement/
 │
-├── client/                      # React frontend
+├── client/                      # Frontend React application
+│   ├── public/                  # Static assets
 │   ├── src/
-│   │   ├── components/          # Navbar, Protected Routes
-│   │   ├── pages/               # All the main pages
-│   │   ├── services/            # API handling
-│   │   ├── App.jsx
-│   │   └── main.jsx
+│   │   ├── components/          # Reusable components
+│   │   │   ├── Navbar.jsx
+│   │   │   └── ProtectedRoute.jsx
+│   │   ├── pages/               # Page components
+│   │   │   ├── Login.jsx
+│   │   │   ├── Signup.jsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Inventory.jsx
+│   │   │   ├── StockIn.jsx
+│   │   │   ├── StockOut.jsx
+│   │   │   ├── Damage.jsx
+│   │   │   └── Reports.jsx
+│   │   ├── services/            # API service layer
+│   │   │   └── api.js
+│   │   ├── App.jsx              # Main app component
+│   │   ├── main.jsx             # Entry point
+│   │   └── index.css            # Global styles
 │   ├── package.json
-│   └── vite.config.js
+│   ├── vite.config.js
+│   ├── tailwind.config.js
+│   └── postcss.config.js
 │
-└── server/                      # Express backend
+└── server/                      # Backend Node.js/Express application
     ├── config/
-    │   └── db.js               # MongoDB connection
-    ├── controllers/            # Business logic
+    │   └── db.js               # Database configuration
+    ├── controllers/            # Route controllers
+    │   ├── authController.js
+    │   ├── productController.js
+    │   ├── stockController.js
+    │   └── dashboardController.js
     ├── middleware/
-    │   └── auth.js            # JWT verification
-    ├── models/                # Mongoose schemas
-    ├── routes/                # API endpoints
+    │   └── auth.js            # JWT authentication middleware
+    ├── models/                # Mongoose models
+    │   ├── User.js
+    │   ├── Product.js
+    │   └── StockMovement.js
+    ├── routes/                # API routes
+    │   ├── authRoutes.js
+    │   ├── productRoutes.js
+    │   ├── stockRoutes.js
+    │   └── dashboardRoutes.js
     ├── .env                   # Environment variables
-    └── server.js              # Entry point
+    ├── server.js              # Server entry point
+    └── package.json
 ```
 
 ---
 
-## API Reference
+## 🔌 API Documentation
 
-Base URL: `http://localhost:5000/api`
-
-### Auth
-- `POST /api/auth/register` - Sign up
-- `POST /api/auth/login` - Log in
-
-### Products
-- `GET /api/products` - Get all products
-- `POST /api/products` - Create product
-- `PUT /api/products/:id` - Update product
-- `DELETE /api/products/:id` - Delete product
-
-### Stock
-- `GET /api/stock` - Get movements (supports filters)
-- `POST /api/stock/in` - Add stock
-- `POST /api/stock/out` - Remove stock
-- `POST /api/stock/damage` - Report damage
-
-### Dashboard
-- `GET /api/dashboard/stats` - Overall statistics
-- `GET /api/dashboard/low-stock` - Products below reorder level
-- `GET /api/dashboard/out-of-stock` - Empty inventory items
-- `GET /api/dashboard/top-skus` - Best performers
-- `GET /api/dashboard/stock-distribution` - For pie chart
-- `GET /api/dashboard/category-distribution` - For bar chart
-
-All protected routes need the JWT token in the Authorization header:
+### Base URL
 ```
-Authorization: Bearer <your-token>
+http://localhost:5000/api
+```
+
+### Authentication Endpoints
+
+#### Register User
+```http
+POST /api/auth/register
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "securePassword123",
+  "role": "user"
+}
+
+Response: { token, user }
+```
+
+#### Login
+```http
+POST /api/auth/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "securePassword123"
+}
+
+Response: { token, user }
+```
+
+### Product Endpoints
+
+#### Get All Products
+```http
+GET /api/products
+Authorization: Bearer <token>
+
+Response: [{ products }]
+```
+
+#### Create Product
+```http
+POST /api/products
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "sku": "SKU001",
+  "name": "Product Name",
+  "category": "Category",
+  "quantity": 100,
+  "reorderLevel": 20,
+  "unitPrice": 25.50,
+  "description": "Product description",
+  "supplier": "Supplier Name",
+  "location": "Warehouse A"
+}
+
+Response: { product }
+```
+
+#### Update Product
+```http
+PUT /api/products/:id
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "name": "Updated Product Name",
+  "quantity": 150
+}
+
+Response: { product }
+```
+
+#### Delete Product
+```http
+DELETE /api/products/:id
+Authorization: Bearer <token>
+
+Response: { message: "Product deleted" }
+```
+
+### Stock Movement Endpoints
+
+#### Get Stock Movements (with filters)
+```http
+GET /api/stock?type=in&startDate=2024-01-01&endDate=2024-12-31
+Authorization: Bearer <token>
+
+Response: [{ movements }]
+```
+
+#### Stock In
+```http
+POST /api/stock/in
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "inventoryId": "productObjectId",
+  "quantity": 50,
+  "reason": "Purchase",
+  "reference": "PO12345",
+  "notes": "Received from supplier"
+}
+
+Response: { message, movement, updatedProduct }
+```
+
+#### Stock Out
+```http
+POST /api/stock/out
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "inventoryId": "productObjectId",
+  "quantity": 30,
+  "reason": "Sale",
+  "reference": "INV67890",
+  "notes": "Sold to customer"
+}
+
+Response: { message, movement, updatedProduct }
+```
+
+#### Report Damage
+```http
+POST /api/stock/damage
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "inventoryId": "productObjectId",
+  "quantity": 5,
+  "reason": "Physical Damage",
+  "reference": "DMG001",
+  "notes": "Damaged during transport"
+}
+
+Response: { message, movement, updatedProduct }
+```
+
+### Dashboard Endpoints
+
+#### Get Dashboard Statistics
+```http
+GET /api/dashboard/stats
+Authorization: Bearer <token>
+
+Response: {
+  totalProducts,
+  lowStockCount,
+  outOfStockCount,
+  inStockCount
+}
+```
+
+#### Get Low Stock Products
+```http
+GET /api/dashboard/low-stock
+Authorization: Bearer <token>
+
+Response: [{ products }]
+```
+
+#### Get Out of Stock Products
+```http
+GET /api/dashboard/out-of-stock
+Authorization: Bearer <token>
+
+Response: [{ products }]
+```
+
+#### Get Top SKUs
+```http
+GET /api/dashboard/top-skus
+Authorization: Bearer <token>
+
+Response: [{ 
+  _id, sku, name, category, 
+  totalQuantity, movements 
+}]
+```
+
+#### Get Stock Distribution
+```http
+GET /api/dashboard/stock-distribution
+Authorization: Bearer <token>
+
+Response: [
+  { name: "Low Stock", value: 5, fill: "#FFC107" },
+  { name: "Out of Stock", value: 2, fill: "#f44336" },
+  { name: "In Stock", value: 50, fill: "#4caf50" }
+]
+```
+
+#### Get Category Distribution
+```http
+GET /api/dashboard/category-distribution
+Authorization: Bearer <token>
+
+Response: [
+  { name: "Electronics", count: 25 },
+  { name: "Medical", count: 30 }
+]
 ```
 
 ---
 
-## How to Use
+## 📖 Usage Guide
 
-**Adding Products:**
-1. Head to Inventory page
-2. Click "Add Product"
-3. Fill in the details (SKU must be unique)
-4. Save it
+### 1. Getting Started
 
-**Recording Stock In:**
-1. Go to Stock In page
-2. Pick your product
-3. Enter how much you're adding
-4. Choose a reason and add any notes
-5. Submit
+1. **Sign Up**: Create a new account with your email and password
+2. **Login**: Use your credentials to access the system
+3. **Dashboard**: View your inventory overview and analytics
 
-**Recording Stock Out:**
-1. Go to Stock Out page
-2. Select product
-3. Enter quantity (system won't let you take out more than you have)
-4. Pick a reason
-5. Done
+### 2. Managing Products
 
-**Damage Reports:**
-1. Navigate to Damage page
-2. Select the affected product
+**Adding a New Product:**
+1. Navigate to **Inventory** page
+2. Click **+ Add Product** button
+3. Fill in product details:
+   - SKU (unique identifier)
+   - Product name
+   - Category
+   - Unit price
+   - Reorder level
+   - Supplier and location (optional)
+4. Click **Add Product**
+
+**Editing a Product:**
+1. Find the product in the inventory table
+2. Click **Edit** button
+3. Update the required fields
+4. Click **Update Product**
+
+**Deleting a Product:**
+1. Find the product in the inventory table
+2. Click **Delete** button
+3. Confirm deletion
+
+### 3. Stock Operations
+
+**Adding Stock (Stock In):**
+1. Go to **Stock In** page
+2. Select the product from dropdown
+3. Enter quantity to add
+4. Select reason (Purchase, Return, etc.)
+5. Add reference number and notes (optional)
+6. Click **Add Stock to Inventory**
+
+**Removing Stock (Stock Out):**
+1. Go to **Stock Out** page
+2. Select the product from dropdown
+3. Enter quantity to remove
+4. System validates available stock
+5. Select reason (Sale, Transfer, etc.)
+6. Add reference number and notes
+7. Click **Remove Stock from Inventory**
+
+**Reporting Damage:**
+1. Go to **Damage** page
+2. Select affected product
 3. Enter damaged quantity
-4. Choose the damage type
-5. Add detailed notes (important for claims)
-6. Submit
+4. Choose damage reason from comprehensive list
+5. Provide detailed description (required)
+6. Add reference/claim number
+7. Click **Report Damage & Update Inventory**
 
-**Viewing Reports:**
-1. Reports page shows everything
-2. Use filters to narrow down what you're looking for
-3. Export to CSV if you need it in Excel
+### 4. Viewing Reports
+
+**Accessing Analytics:**
+1. Navigate to **Reports** page
+2. View summary statistics at the top
+3. Check SKU performance rankings
+4. Review stock movement history
+
+**Filtering Data:**
+1. Use filter dropdowns:
+   - Movement Type (In/Out/Damage)
+   - Product selection
+   - Date range
+2. Click **Apply Filters**
+3. Click **Reset** to clear filters
+
+**Exporting Data:**
+1. Apply desired filters (optional)
+2. Click **Export to CSV**
+3. CSV file will download with current data
+
+### 5. Dashboard Features
+
+**Understanding Visual Indicators:**
+- **Green**: Healthy stock levels
+- **Orange**: Low stock (reorder needed)
+- **Red**: Out of stock (urgent)
+- **Gray**: Dead stock (zero quantity)
+
+**Using Charts:**
+- **Pie Chart**: Shows stock health distribution
+- **Bar Chart**: Displays products by category
+- Both charts are interactive and clickable
+
+**Monitoring Alerts:**
+- Check "Low Stock Alert" section regularly
+- Review "Out of Stock Items" for immediate action
+- Monitor "Top 10 Best Selling Products" for inventory planning
 
 ---
 
-## Environment Setup
+## 🌍 Environment Variables
 
-**Backend (.env):**
+### Backend (.env)
 
 ```env
+# Server Configuration
 PORT=5000
 NODE_ENV=production
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/InventoryManagementDB
-JWT_SECRET=make_this_really_long_and_random_at_least_32_characters
+
+# Database
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/InventoryManagementDB?retryWrites=true&w=majority
+
+# JWT Configuration
+JWT_SECRET=your_super_secret_jwt_key_minimum_32_characters_long
 JWT_EXPIRE=7d
+
+# Optional: Email Configuration (for future features)
+# SMTP_HOST=smtp.gmail.com
+# SMTP_PORT=587
+# SMTP_USER=your-email@gmail.com
+# SMTP_PASS=your-app-password
 ```
 
-**Frontend:**
-If needed, create a `.env` in the client folder:
+### Frontend (if needed)
 
 ```env
 VITE_API_URL=http://localhost:5000/api
@@ -309,53 +829,76 @@ VITE_API_URL=http://localhost:5000/api
 
 ---
 
-## Deployment Guide
+## 🚀 Deployment
 
-**Frontend (Vercel is easiest):**
+### Frontend Deployment (Vercel/Netlify)
 
+1. **Build the application:**
 ```bash
 cd client
 npm run build
+```
+
+2. **Deploy to Vercel:**
+```bash
 npm install -g vercel
 vercel --prod
 ```
 
-Don't forget to update the API URL in [api.js](client/src/services/api.js) to point to your deployed backend.
+3. **Update API URL:**
+   - Change API_URL in `client/src/services/api.js` to your backend URL
 
-**Backend (Render works great):**
-1. Push your code to GitHub
-2. Connect the repo in Render
-3. Add your environment variables
-4. Deploy
+### Backend Deployment (Render/Heroku)
 
-**MongoDB:**
-1. Create a free cluster on MongoDB Atlas
-2. Get your connection string
-3. Whitelist your IP (or 0.0.0.0/0 for anywhere)
-4. Update MONGODB_URI in your .env
+1. **Deploy to Render:**
+   - Connect your GitHub repository
+   - Set environment variables in Render dashboard
+   - Deploy from main branch
 
----
+2. **Update CORS:**
+   - Add your frontend URL to CORS whitelist in `server.js`
 
-## A Few Notes
+### MongoDB Setup
 
-## Built By
+1. **Create MongoDB Atlas Cluster:**
+   - Sign up at mongodb.com/cloud/atlas
+   - Create a free cluster
+   - Get connection string
+   - Update MONGODB_URI in .env
 
-**Mohd. Altamash Rizwi**  
-[GitHub](https://github.com/rizwimohdaltamash)
-
----
-
-## Thanks To
-
-- The React team for making frontend dev enjoyable
-- Tailwind for saving me from writing CSS
-- Recharts for beautiful charts out of the box
-- MongoDB for handling my data
-- Everyone who uses this and provides feedback
+2. **Configure Network Access:**
+   - Add your IP or allow access from anywhere (0.0.0.0/0)
+   - Create database user with read/write permissions
 
 ---
 
-Made with coffee and late nights ☕
+### Code Style Guidelines
+
+- Use ES6+ features
+- Follow React best practices
+- Write meaningful commit messages
+- Add comments for complex logic
+- Ensure code passes ESLint
+
+---
+
+## 👨‍💻 Developer
+
+**Mohd. Altamash Rizwi**
+- GitHub: [@rizwimohdaltamash](https://github.com/rizwimohdaltamash)
+---
+
+## 🙏 Acknowledgments
+
+- React Icons for beautiful icons
+- Recharts for data visualization
+- Tailwind CSS for styling utilities
+- MongoDB for database solution
+- All contributors and users of this project
+
+---
 
 
-
+**Built with ❤️ using MERN Stack**
+<<<<<<< HEAD
+#
